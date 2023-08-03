@@ -24,6 +24,20 @@ function calcularIdade(event) {
     console.log("funcionante!!!");
 
     let dadosUsuario = pegarValores();
+
+   
+    let ano =  calcular( dadosUsuario.ano)
+
+       console.log (classificarIdade(ano));
+
+       let classificacaoIdade = classificarIdade(ano);
+
+       
+       let usuarioAtualizado = organizarDados(dadosUsuario, ano, classificacaoIdade);
+
+       cadastrarUsuario(usuarioAtualizado)
+       
+
 }
 
 
@@ -50,82 +64,67 @@ function pegarValores() {
     return dadosUsuario;
 }
 
-// //Passo 2 - Calcular
-// function calcular(dia,mes,ano) {
-//     let dataAtual = Date.now()
+//Passo 2 - Calcular
+function calcular(ano) {
+
+       let anoAtual = 2023
+       let idade = anoAtual - ano
+
+       console.log(idade);
+
+       return idade;
     
-//     let anoCal = dataAtual.getFullYear() - ano
-//     let mesCal = dataAtual.getMonth()
-//     let diaCal = dataAtual.getDay()
+}
 
-//     let idade = 0
-//     if(mes < mesCal){
-//         idade = anoCal
-//     }else if(mes == mesCal) {
-//         if(dia <= diaCal){
-//             idade = anoCal
-//         }else{
-//             idade = anoCal - 1
-//         }
-//     } else {
-//         idade = anoCal - 1
+//Passo 3 - Classificar
+function classificarIdade(idade) {
+    // Resultado            Faixa
+    // 0 à 12                Criança
+    // 13 à 17                Adolescente
+    // 18 à 65               Adulto
+    // Acima de 65         Idoso
 
-//         console.log(idade);
+    if (idade <= 12) {
+        return "criança"
 
-//          // Retorna a variavel idade
-//     return idade;
-//     }
+          }else if (idade >= 13 && idade <= 17) {
+            return "adolescente"
+            
+          }else if (idade >= 18 && idade <= 65) {
+            return "adulto"
+          }else {
+            return "idoso"
+          }
   
-// }
-
-// //Passo 3 - Classificar
-// function classificarIdade(idade) {
-
-//     if(idade <= 12){
-//         return "Criança";
-
-//     }else if(idade <= 17 || idade >= 13){
-//         return "Adolescente"
-
-//     }else if (idade <= 65 || idade >= 18) {
-//         return "Adulto"
-
-//     }else{
-//         return "Idoso"
-//     }
-// }
+}
 
 // // Passo 4 - Organizar informações
-// function organizarDados(dadosUsuario, calIdade, classificacaoIdade) {
+ function organizarDados(dadosUsuario, idade, classificacaoIdade) {
+    let dadosUsuarioAtualizado = {
+        ...dadosUsuario,
+        idadeAtualizado: idade,
+        classificacaoIdadeAtualizado: classificacaoIdade,
+    }
+    console.log(dadosUsuarioAtualizado);
+    return dadosUsuarioAtualizado;
     
-//     let dataNascimento ="${dia}/${mes}/${ano}"
-//     let dadosUsuarioAtualizado = {
-//         ...dadosUsuario,
-//         idade: calIdade,
-//         classificacao: classificacaoIdade,
-//         dataCadastro: dataNascimento
-//     }
-
-//     console.log(dadosUsuarioAtualizado);
-
-//     return dadosUsuarioAtualizado;
-// }
+}
 
 // //Passo 5 - Salvar
-// function cadastrarUsuario(usuario) {
-//     let listaUsuarios = [];
+function cadastrarUsuario(usuario) {
+    let listaUsuarios = [];
 
-    
-//     //if (localStorage.getItem("usuariosCadastrados") == true) {
-//     if (localStorage.getItem("usuariosCadastrados")) {
-        
-//         listaUsuarios = JSON.parse(localStorage.getItem("usuariosCadastrados"));
-//     }
-    
-//     listaUsuarios.push(usuario)
+    if (localStorage.getItem("usuariosCadastrados")) {
+        listaUsuarios = JSON.parse(localStorage.getItem("usuariosCadastrados"))
+    }
 
-//     localStorage.setItem("usuariosCadastrados", JSON.stringify(listaUsuarios))
-// }
+    listaUsuarios.push(usuario)
+
+    localStorage.setItem("usuariosCadastrados", JSON.stringify(listaUsuarios))
+
+
+
+}
 
 
 // // Passo 6 - Ler lista
